@@ -1,5 +1,5 @@
 /*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
+Copyright © 2023 Alexey Ayzin <alexey.ayzin@gmail.com>
 */
 package cmd
 
@@ -13,10 +13,10 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "work-go",
 	Short: "An hour logger with some display options",
-	Long: `This hour logger is pretty simple. You can start and end sessions
-then view them at your convenience.
-Funcionality includes viewing your work sessions for this week and today.
-We'll also give you some totals and averages so you can report them if you need to`,
+	Long: `This hour logger is pretty simple. You can start and end sessions then
+view them at your convenience. Funcionality includes viewing your work sessions
+for this week and today. We'll also give you some totals and averages so you
+can report them if you need to.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },

@@ -1,6 +1,5 @@
 /*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
+Copyright © 2023 Alexey Ayzin <alexey.ayzin@gmail.com>
 */
 package cmd
 
@@ -13,13 +12,9 @@ import (
 // startCmd represents the start command
 var startCmd = &cobra.Command{
 	Use:   "start",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Start a new session",
+	Long: `Start logging a new session. If one has already started, you will
+need to end it.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("start called")
 	},

@@ -1,6 +1,5 @@
 /*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
+Copyright © 2023 Alexey Ayzin <alexey.ayzin@gmail.com>
 */
 package cmd
 
@@ -13,13 +12,10 @@ import (
 // viewCmd represents the view command
 var viewCmd = &cobra.Command{
 	Use:   "view",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "View your sessions",
+	Long: `View your sessions in either weekly or daily formats. You can also
+view the important metrics like total hours, total sessions, hours per session,
+hours per day, and some other metrics.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("view called")
 	},

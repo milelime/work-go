@@ -38,6 +38,9 @@ func init() {
 }
 
 func logStart() {
+	if !fileExists(SESSION_LOG) {
+		handleMissingLog()
+	}
 	buffer := readLastLine(SESSION_LOG)
 
 	if buffer[0] == 'S' {

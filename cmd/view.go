@@ -48,6 +48,9 @@ type SessionMetrics struct {
 }
 
 func viewLog(mode string) {
+	if !fileExists(SESSION_LOG) {
+		handleMissingLog()
+	}
 	buffer := readLastLine(SESSION_LOG)
 	if strings.HasPrefix(buffer, "S") {
 		fmt.Println("There is a session ongoing.")

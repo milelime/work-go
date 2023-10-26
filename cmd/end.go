@@ -39,6 +39,9 @@ func init() {
 }
 
 func logEnd() {
+	if !fileExists(SESSION_LOG) {
+		handleMissingLog()
+	}
 	buffer := readLastLine(SESSION_LOG)
 
 	if buffer[0] == 'E' {

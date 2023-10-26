@@ -4,10 +4,17 @@ Copyright © 2023 Alexey Ayzin <alexey.ayzin@gmail.com>
 package cmd
 
 import (
+	"bufio"
+	"fmt"
+	"io"
 	"os"
 
 	"github.com/spf13/cobra"
 )
+
+var previousOffset int64 = 0
+
+const SESSION_LOG = "session.log"
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -41,4 +48,42 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
+
+func readLastLine(filename string) string {
+
+	file, err := os.Open(filename)
+	if err != nil {
+		panic(err)
+	}
+
+	defer file.Close()
+
+	reader := bufio.NewReader(file)
+
+	lastLineSize := 0
+
+	for {
+		line, _, err := reader.ReadLine()
+
+		if err == io.EOF {
+			break
+		}
+
+		lastLineSize = len(line)
+	}
+
+	fileInfo, err := os.Stat(filename)
+
+	buffer := make([]byte, lastLineSize)
+
+	offset := fileInfo.Size() - int64(lastLineSize+1)
+	numRead, err := file.ReadAt(buffer, offset)
+
+	if previousOffset != offset {
+		buffer = buffer[:numRead]
+		previousOffset = offset
+		return fmt.Sprintf("%s \n", buffer)
+	}
+	return fmt.Sprintf("%s \n", buffer)
 }

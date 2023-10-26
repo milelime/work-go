@@ -1,10 +1,12 @@
 /*
 Copyright © 2023 Alexey Ayzin <alexey.ayzin@gmail.com>
-*/
-package cmd
+*/package cmd
 
 import (
 	"fmt"
+	"log"
+	"os"
+	"time"
 
 	"github.com/spf13/cobra"
 )
@@ -17,6 +19,7 @@ var startCmd = &cobra.Command{
 need to end it.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("start called")
+		logStart()
 	},
 }
 
@@ -32,4 +35,33 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// startCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
+
+func logStart() {
+	buffer := readLastLine(SESSION_LOG)
+
+	if buffer[0] == 'S' {
+		log.Fatal("A session has already been started.\nPlease end it before creating a new one.")
+	}
+
+	now := time.Now()
+
+	start := fmt.Sprintf(
+		"START: %d-%02d-%02d %02d:%02d:%02d\n",
+		now.Year(),
+		now.Month(),
+		now.Day(),
+		now.Hour(),
+		now.Minute(),
+		now.Second(),
+	)
+
+	f, err := os.OpenFile(SESSION_LOG, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+	if _, err := f.WriteString(start); err != nil {
+		log.Println(err)
+	}
 }

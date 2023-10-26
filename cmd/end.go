@@ -5,6 +5,9 @@ package cmd
 
 import (
 	"fmt"
+	"log"
+	"os"
+	"time"
 
 	"github.com/spf13/cobra"
 )
@@ -17,6 +20,7 @@ var endCmd = &cobra.Command{
 you will need to start a new one.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("end called")
+		logEnd()
 	},
 }
 
@@ -32,4 +36,33 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// endCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
+
+func logEnd() {
+	buffer := readLastLine(SESSION_LOG)
+
+	if buffer[0] == 'E' {
+		log.Fatal("A session does not exist.\nPlease start a new session.")
+	}
+
+	now := time.Now()
+
+	start := fmt.Sprintf(
+		"END: %d-%02d-%02d %02d:%02d:%02d\n",
+		now.Year(),
+		now.Month(),
+		now.Day(),
+		now.Hour(),
+		now.Minute(),
+		now.Second(),
+	)
+
+	f, err := os.OpenFile(SESSION_LOG, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+	if _, err := f.WriteString(start); err != nil {
+		log.Println(err)
+	}
 }

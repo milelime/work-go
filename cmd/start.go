@@ -67,4 +67,6 @@ func logStart() {
 	if _, err := f.WriteString(start); err != nil {
 		log.Println(err)
 	}
+
+	fmt.Printf("Session started at %s", start)
 }

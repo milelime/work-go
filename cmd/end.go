@@ -50,7 +50,7 @@ func logEnd() {
 
 	now := time.Now()
 
-	start := fmt.Sprintf(
+	end := fmt.Sprintf(
 		"END: %d-%02d-%02d %02d:%02d:%02d\n",
 		now.Year(),
 		now.Month(),
@@ -65,7 +65,9 @@ func logEnd() {
 		log.Fatal(err)
 	}
 	defer f.Close()
-	if _, err := f.WriteString(start); err != nil {
+	if _, err := f.WriteString(end); err != nil {
 		log.Println(err)
 	}
+
+	fmt.Printf("Session ended at %s", end)
 }
